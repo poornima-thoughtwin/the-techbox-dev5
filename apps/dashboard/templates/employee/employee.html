@@ -1,0 +1,102 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Tables {% endblock %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+</body>
+</html>
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header card-header-primary p-3 d-flex justify-content-between">
+				<h4 class="card-title ">Employee Table</h4>
+				<a href="{% url 'create_employee' %}" class="btn btn-sucess">Add</a>
+ 			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table">
+						<thead class=" text-primary">
+							<th>
+								Name
+							</th>
+							<th>
+								Email
+							</th>
+							<th>
+								Designation
+							</th>
+							<th>
+								Phone
+							</th>
+							<th>
+								Address
+							</th>
+							<th>
+								Status
+							</th>
+							<th>
+								Action
+							</th>
+						</thead>
+						<tbody>
+							{% for data in employee_list %}
+
+							<tr>
+								<td>
+									{{data.name}}
+								</td>
+								<td>
+									{{data.email}}
+								</td>
+								<td>
+									{{data.designation}}
+								</td>
+								<td>
+									{{data.phone}}
+								</td>
+								<td>
+									{{data.address}}
+								</td>
+								<td>
+									{{data.status}}
+								</td>
+								<td>
+								<a href="{% url 'delete_employee' data.id %} "class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" onClick="getId('{{data.id}}')">Delete</a>
+								<a href="{% url 'update_employee' data.id %} "class="btn btn-sucess">Update</a>
+
+								</td>
+							</tr>
+							{% endfor %}
+
+						</tbody>
+					</table>
+					<div class="pagination justify-content-end">
+					  <span>
+					    {% if page_obj.has_previous %}
+					    <a class="btn btn-sm btn-primary" href="?page={{page_obj.previous_page_number}}">Previous</a>
+					    {% endif %}
+					    <span>{{ page_obj.number }}</span>
+
+					    {% if page_obj.has_next %}
+					    <a style="margin-right:45px" style="background-color: #825ee4" class="btn btn-sm btn-primary"  href="?page={{page_obj.next_page_number}}">Next</a>
+					    {% endif %}
+
+					  </span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+    function getId(id) {
+        var a =document.getElementById('delete_record');
+        // alert(id)
+        a.href = "/delete_employee/"+id;
+    }
+	</script>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

@@ -1,0 +1,105 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Tables {% endblock %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+</body>
+</html>
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header card-header-primary p-3 d-flex justify-content-between">
+				<h4 class="card-title ">Asset Table</h4>
+				<a href="{% url 'create_asset' %}" class="btn btn-sucess">Add</a>
+ 			</div>
+			<div class="card-body">
+				<div class="table-responsive">
+					<table class="table">
+						<thead class=" text-primary">
+							<th>
+								Name
+							</th>
+							<!-- <th>
+								Email
+							</th> -->
+							<th>
+								Model_number
+							</th>
+							<!-- <th>
+								Category
+							</th> -->
+							<!-- <th>
+								Availaibity
+							</th> -->
+							<th>
+								expire_date
+							</th>
+							<th>
+								Category
+							</th>
+							<th>
+								Action
+							</th>
+						</thead>
+						<tbody>
+							{% for data in asset_list %}
+
+							<tr>
+								<td>
+									{{data.name}}
+								</td>
+								<!-- <td>
+									{{data.category}}
+								</td> -->
+								<td>
+									{{data.model_number}}
+								</td>
+								<!-- <td>
+									{{data.avilability}}
+								</td> -->
+								<td>
+									{{data.expire_date}}
+								</td>
+								<td>
+									{{data.category}}
+								</td>
+								<td>
+								<a href="{% url 'delete_asset' data.id %} "class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" onClick="getId('{{data.id}}')">Delete</a>								
+								<!-- <a href="{% url 'delete_asset' data.id %} "class="btn btn-danger">Delete</a> -->
+								<a href="{% url 'update_asset' data.id %} "class="btn btn-sucess">Update</a>
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					<div class="pagination justify-content-end">
+					  <span>
+					    {% if page_obj.has_previous %}
+					    <a class="btn btn-sm btn-primary" href="?page={{page_obj.previous_page_number}}">Previous</a>
+					    {% endif %}
+					    <span>{{ page_obj.number }}</span>
+
+					    {% if page_obj.has_next %}
+					    <a style="margin-right:45px" style="background-color: #825ee4" class="btn btn-sm btn-primary"  href="?page={{page_obj.next_page_number}}">Next</a>
+					    {% endif %}
+
+					  </span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+    function getId(id) {
+        var a =document.getElementById('delete_record');
+        // alert(id)
+        a.href = "/delete_asset/"+id;
+    }
+	</script>
+	
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
