@@ -21,18 +21,9 @@
 							<th>
 								Name
 							</th>
-							<!-- <th>
-								Email
-							</th> -->
 							<th>
 								Model_number
 							</th>
-							<!-- <th>
-								Category
-							</th> -->
-							<!-- <th>
-								Availaibity
-							</th> -->
 							<th>
 								expire_date
 							</th>
@@ -50,15 +41,9 @@
 								<td>
 									{{data.name}}
 								</td>
-								<!-- <td>
-									{{data.category}}
-								</td> -->
 								<td>
 									{{data.model_number}}
 								</td>
-								<!-- <td>
-									{{data.avilability}}
-								</td> -->
 								<td>
 									{{data.expire_date}}
 								</td>
@@ -67,7 +52,6 @@
 								</td>
 								<td>
 								<a href="{% url 'delete_asset' data.id %} "class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" onClick="getId('{{data.id}}')">Delete</a>								
-								<!-- <a href="{% url 'delete_asset' data.id %} "class="btn btn-danger">Delete</a> -->
 								<a href="{% url 'update_asset' data.id %} "class="btn btn-sucess">Update</a>
 								</td>
 							</tr>
@@ -100,6 +84,5 @@
 	</script>
 	
 {% endblock content %}
-
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}{% endblock javascripts %}

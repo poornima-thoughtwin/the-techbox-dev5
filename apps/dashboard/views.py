@@ -27,8 +27,7 @@ class MyView(View):
         employee = Employee.objects.all().count()
         asset = Asset.objects.all().count()
         assetassign = AssetAssign.objects.all().count()
-        assetassign_list = AssetAssign.objects.filter(expire_date__lte=datetime.datetime
-            .now())
+        assetassign_list = AssetAssign.objects.filter(expire_date__lte=datetime.datetime.now())
         category = Category.objects.all().count()
         return render(request,'index.html', {'employee':employee,'asset':asset,'assetassign':assetassign,'category':category,'assetassign_list':assetassign_list})
 

@@ -1,0 +1,15 @@
+
+
+{% extends "admin/base_site.html" %}
+{% load  static %}
+
+{% block title %}{{ title }} | {% trans "Custom Admin Title" %}{% endblock %}
+{% block extrastyle %}
+  <link rel="stylesheet" type="text/css" href="{% static 'assets/css/django_color.css' %}"/>
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name">{% trans "Custom Admin Title" %}</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.views import View
-from .forms import SignUpForm
 from django.shortcuts import render,HttpResponseRedirect,HttpResponse
 from django.contrib.auth.models import User
 from django.views.generic import View
@@ -14,46 +13,50 @@ from .models import user_profile
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
 #............................................................................... Create your views here.
 
+class LoginView(View):
+    def post(self, request):
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = request.POST['username']
+            print(username)
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            message.success(request,'Logged In')
+            print(user)
+            if user is not None:
+                return HttpResponseRedirect("index/")
+            else:
+                return HttpResponse("Inactive user.")
+    
+        else:
+            return render(request,'registration/login.html')
+    
+    def get(self,request):
+        forms = UserCreationForm()
+        return render(request, 'registration/login.html', {'form': form})
+                   
 # class LoginView(View):
-#     def post(self, request):
+#     def post(self,request):
 #         form = UserCreationForm(request.POST)
 #         if form.is_valid():
 #             form.save()
 #             username = request.POST['username']
 #             password = request.POST['password']
-#             user = authenticate(username=username, password=password)
-#             if user is not None:
-#                 login(request, user)
-#                 return HttpResponseRedirect("index/")
-#             else:    
-#                 messages.success(request,'incorrect')
-#         else:
-#             messages.success(request,'successfully ')    
+#             email = request.POST['email']             
+#             user = authenticate(username=username,email=email)
+#             user.set_password(password)
+#             user.save()
+#             messages.success(request,'incorrect')
+#             return render(request, "registration/login.html", {"form": form})
 #     def get(self,request):
 #         form = UserCreationForm()
-#         return render(request, 'registration/register.html', {'form': form})
-
-
-class LoginView(View):
-    def post(self,request):
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = request.POST['username']
-            password = request.POST['password']
-            email = request.POST['email']             
-            user = authenticate(username=username,email=email)
-            user.set_password(password)
-            user.save()
-            messages.success(request,'incorrect')
-            return render(request, "registration/login.html", {"form": form})
-    def get(self,request):
-        form = UserCreationForm()
-        messages.success(request,'successfully')
-        return render(request, "registration/login.html", {"form": form})
+#         messages.success(request,'successfully')
+#         return render(request, "registration/login.html", {"form": form})
 
 
 def myregister(request):
@@ -110,12 +113,3 @@ def user_profile(request):
         return render(request,"registration/user_profile.html")
 
 #....................................................
-# @method_decorator(login_required, name='dispatch')
-# class logoutView(View):
-#     def get(self,request):
-#         logout(request)
-#         res =  HttpResponseRedirect("index/")
-#         res.delete_cookie("user_id")
-#         res.delete_cookie("date_login")
-#         messages.success(request,"Successfull Logged Out")
-#         return res

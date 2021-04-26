@@ -63,6 +63,7 @@
 									{{data.status}}
 								</td>
 								<td>
+								
 								<a href="{% url 'delete_employee' data.id %} "class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" onClick="getId('{{data.id}}')">Delete</a>
 								<a href="{% url 'update_employee' data.id %} "class="btn btn-sucess">Update</a>
 
@@ -72,6 +73,7 @@
 
 						</tbody>
 					</table>
+					
 					<div class="pagination justify-content-end">
 					  <span>
 					    {% if page_obj.has_previous %}
@@ -89,6 +91,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<script>
     function getId(id) {
         var a =document.getElementById('delete_record');
@@ -96,7 +99,7 @@
         a.href = "/delete_employee/"+id;
     }
 	</script>
-{% endblock content %}
 
+{% endblock content %}
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}{% endblock javascripts %}

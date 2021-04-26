@@ -1,68 +1,37 @@
 
 
-
-
-{% extends "registration/account_base.html" %}
-
-{% block title %} Register {% endblock %} 
-
-<!-- Specific Page CSS goes HERE  -->
-{% block stylesheets %}{% endblock stylesheets %}
-
+{% extends 'registration/account_base.html' %} 
 {% block content %}
-
-  <div class="row">
-    <div class="col-md-5">
-      <div class="card">
-        <div class="card-header card-header-primary">
-          <h4 class="card-title">
-            Register
-          </h4>
-        </div>
-
-        <div id="div2">
-            <h1>Create an account</h1>
-
-            <!-- <p>It's free and always will be.</p> -->
-        <form action="{% url 'delete_assetassign' %}" method="post">
-            {% csrf_token %}
-    <div class="card-header py-3">
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal"
-            data-target="#exampleModalCenter">
-        Add tech tool
-    </button>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="data.id">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="tool-form">                    
-                        {{ data.name}}
-                        <br>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
-                    </button>
-                    <button type="button" class="btn btn-primary" id="tech-btn">Submit</button>
-                </div>
-            </div>
-        </div>
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-centered">
+        <h1 class="mt-5 mb-3">Register</h1>
+      </div>
     </div>
-</div>
-{% endblock content %}
-
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
-<script>
-    $(document).ready(function () {
-        $(document).on('click', '#tech-btn', function (e)
-</script>
+    <div class="row">
+      <div class="col-md-6 offset-md-3 mt-3">
+        <form method="post" action="{% url 'register' %}">
+          {% csrf_token %} {% for field in form %}
+          <div class="form-group">
+            {{ field.label_tag }}
+            <input
+              type="{% if 'password' in field.label_tag %}password{% else %}text{% endif %}"
+              name="{{ field.html_name }}"
+              class="form-control"
+              maxlength="{% if 'username' in field.label_tag %}150{% endif %}"
+              id="{{ field.id_for_label }}"
+              required
+            />
+          </div>
+          {% if field.errors %} {% for error in field.errors %}
+          <p style="font-size: 13px;">
+            {{ error|escape }}
+          </p>
+          {% endfor %} {% endif %} {% endfor %}
+          <button type="submit" class="btn btn-primary mt-2">Register</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
