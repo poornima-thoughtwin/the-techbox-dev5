@@ -1,6 +1,6 @@
 
 from django.views.generic import View
-from django.shortcuts import render,HttpResponseRedirect
+from django.shortcuts import render,redirect, HttpResponseRedirect
 from django.views import generic
 from .models import Employee,Asset,Category,Designation,AssetAssign
 from .forms import EmployeeForm,AssetForm,CategoryForm,DesignationForm,AssignAssetForm
@@ -19,6 +19,7 @@ from django.views.generic.edit import UpdateView
 import datetime
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from django.views import View
 
 #......................................................................................................................
 @method_decorator(login_required, name='dispatch')
@@ -33,26 +34,76 @@ class MyView(View):
 
 class CreateEmployeeView(SuccessMessageMixin,CreateView):
     form_class = EmployeeForm
+    # print(request.POST)
     model = Employee
     template_name = "employee/create_employee.html"
     success_url ="/employee/"
     success_message = "Employee was Created successfully"
 
-   
+# class CreateEmployeeView(View):
 
-class EmployeeView(ListView):
-    model = Employee
-    #template_name = "employee/employee_list.html"
-    paginate_by = 3
-    queryset = Employee.objects.all()
-    template_name = "employee/employee.html"
+#     def get(self, request):
+#         form = EmployeeForm
+#         return render(request, 'employee/employee.html', {'form': form})
+
+#     def post(self, request, *args, **kwargs):
+#         try:
+#             data = {}
+#             emp_form = EmployeeForm(request.POST, request.FILES)
+#             print(request.POST),
+#             print(request.FILES)
+#             if emp_form.is_valid():
+#                 emp_form.save()
+#                 messages.success(request, 'Employee Add success')
+#                 newemp = Employee.objects.get(name=request.POST.get('name'))
+#                 data['newemp'] = newemp
+
+#                 return render(request, 'employee/new_row.html', data)
+#             else:
+#                 return HttpResponse("not valid")
+
+#         except Exception as e:
+#             print(e)
+#         return render(request, 'employee/new_row.html')
+
+# class EmployeeView(ListView):
+#     form = EmployeeForm
+#     model = Employee
+#     #template_name = "employee/employee_list.html"
+#     paginate_by = 3
+#     queryset = Employee.objects.all()
+#     template_name = "employee/employee.html"
 
 
-class DeleteEmployeeView(SuccessMessageMixin,DeleteView):
-    model = Employee
-    template_name = "employee/employee_confirm_delete.html"
-    success_url ="/employee/"
-    success_message = "Employee was Deleted successfully"
+class EmployeeView(View):
+
+    #@method_decorator(login_required(login_url="/login/"))
+    def get(self, request):
+        data = {}
+        employees = Employee.objects.all()
+        data['employee_list'] = employees
+        data['form'] = EmployeeForm
+
+        return render(request, 'employee/employee.html', data)
+
+
+# class DeleteEmployeeView(SuccessMessageMixin,DeleteView):
+#     model = Employee
+#     template_name = "employee/employee_confirm_delete.html"
+#     success_url ="/employee/"
+#     success_message = "Employee was Deleted successfully"
+
+
+class DeleteEmployeeView(View):
+
+    def post(self, request):
+        employee_id = request.POST.get('id')
+        print(employee_id)
+        employee = Employee.objects.get(id=employee_id)
+
+        employee.delete()
+
+        return HttpResponseRedirect("/employee/")
 
 class UpdateEmployeeView(SuccessMessageMixin,UpdateView):
     form_class = EmployeeForm
@@ -77,12 +128,34 @@ class AssetView(ListView):
     template_name = "asset/asset.html"
     paginate_by = 3
 
+# class AssetView(View):
 
-class AssetDeleteView(DeleteView):
-    model = Asset
-    template_name = "asset/asset_confirm_delete.html"
-    success_url ="/asset/"
-    success_message = "Asset was delete successfully"
+#     #@method_decorator(login_required(login_url="/login/"))
+#     def get(self, request):
+#         data = {}
+#         asset = Asset.objects.all()
+#         print(asset)
+#         data['asset_list'] = asset
+#         data['form'] = AssetForm
+
+#         return render(request, 'asset/asset.html', data)
+
+# class AssetDeleteView(DeleteView):
+#     model = Asset
+#     template_name = "asset/asset_confirm_delete.html"
+#     success_url ="/asset/"
+#     success_message = "Asset was delete successfully"
+
+class AssetDeleteView(View):
+
+    def post(self, request):
+        asset_id = request.POST.get('id')
+        print(asset_id)
+        asset = Asset.objects.get(id=asset_id)
+
+        asset.delete()
+
+        return HttpResponseRedirect("/asset/")
 
 
 class AssetUpdateView(SuccessMessageMixin,UpdateView):
@@ -114,11 +187,23 @@ class CategoryView(View):
         page_obj =paginator.get_page(page_number)
         return render(request,"category/category.html",{'category_list':category,'page_obj':page_obj})
 
+# class CategoryDeleteView(View):
+#     def get(self,request,id):
+#         qureyset = Category.objects.filter(id=id).delete()
+#         messages.success(request,'Category successfully Deleted')
+#         return HttpResponseRedirect("/category/")
+
 class CategoryDeleteView(View):
-    def get(self,request,id):
-        qureyset = Category.objects.filter(id=id).delete()
-        messages.success(request,'Category successfully Deleted')
+
+    def post(self, request):
+        category_id = request.POST.get('id')
+        print(category_id)
+        category = Category.objects.get(id=category_id)
+
+        category.delete()
+
         return HttpResponseRedirect("/category/")
+
 
 class CategoryUpdateView(SuccessMessageMixin,UpdateView):
     form_class = CategoryForm
@@ -212,6 +297,7 @@ class AssetAssignDeleteView(View):
         messages.success(request,'AssetAssign successfully Deleted')
         return HttpResponseRedirect("/assetassign")
     
+
 #......................................................................................
 
 # @login_required
@@ -272,3 +358,12 @@ class AssetAssignDeleteView(View):
 #     def get(self, request, *args, **kwargs):
 #         messages.success(self.request, self.success_message)
 #         return self.delete(request, *args, **kwargs)
+
+
+
+ # path('api/employee/create',api_views.EmployeeCreateApi.as_view(),name='api_employee_create'),
+    # path('api/employee/list',api_views.EmployeeListApi.as_view(),name='api_employee_list'),
+    # path('api/employee/update/<int:pk>',api_views.EmployeeUpdateApi.as_view(),name='api_employee_update'),
+    # path('api/employee/delete/<int:pk>',api_views.EmployeeDeleteApi.as_view(),name='api_employee_delte'),
+
+    

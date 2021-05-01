@@ -1,0 +1,44 @@
+[
+{
+    "model": "dashboard.employee",
+    "pk": 21,
+    "fields": {
+        "name": "Pen Drives",
+        "email": "poonam@gmail.com",
+        "designation": 7,
+        "phone": "1111",
+        "address": "indore",
+        "status": true,
+        "created_at": "2021-04-28T10:00:15.230Z",
+        "updated_at": "2021-04-28T10:00:15.230Z"
+    }
+},
+{
+    "model": "dashboard.employee",
+    "pk": 22,
+    "fields": {
+        "name": "Pen Drives",
+        "email": "poonam5@gmail.com",
+        "designation": 11,
+        "phone": "123",
+        "address": "indore",
+        "status": true,
+        "created_at": "2021-04-29T09:08:44.902Z",
+        "updated_at": "2021-04-29T09:08:44.902Z"
+    }
+},
+{
+    "model": "dashboard.employee",
+    "pk": 23,
+    "fields": {
+        "name": "Dslr Cameras",
+        "email": "poornima@gmail.com",
+        "designation": 11,
+        "phone": "123456789",
+        "address": "indore",
+        "status": true,
+        "created_at": "2021-04-29T11:15:28.487Z",
+        "updated_at": "2021-04-29T11:15:28.487Z"
+    }
+}
+]

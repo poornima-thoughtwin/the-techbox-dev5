@@ -24,10 +24,12 @@
               {% endif %}  
           </h6>
           <br />
-            <form role="form" method="post" action="{% url 'create_employee' %}">
-                
-              {% csrf_token %} 
+            
 
+            <form role="form" method="post" action="{% url 'create_employee' %}">
+                {% csrf_token %}
+             
+              <div>
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
@@ -87,26 +89,20 @@
 
               <br />
 
-              <button type="submit" name="register" class="btn btn-primary pull-left">submit</button>
+              <button type="submit" name="register" class="btn btn-primary" 
+              id= "create-btn" >submit</button>
 
             <!-- -->
               <div class="clearfix"></div>
 
-            </form>
+            </div>
         </div>
       </div>
     </div>
   </div>
-
+ 
+ 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}{% endblock javascripts %}
-{% if status %}
-<script>
-
-alert("{{status}}");
-
-
-</script>
-{% endif %}

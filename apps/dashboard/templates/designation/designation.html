@@ -38,7 +38,10 @@
 									{{data.created_at}}
 								</td>
 								<td>
-								<a href="{% url 'delete_designation' data.id %} "class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" onClick="getId('{{data.id}}')">Delete</a>
+								<input class="btn btn-danger btn-sm" type="button"
+                                   data-id="{{ data.id }}" id="tech-del-btn" value="Delete ">
+                                </div>
+								
 								<a href="{% url 'update_designation' data.id %} "class="btn btn-sucess">Update</a>
 								</td>
 							</tr>
@@ -61,13 +64,36 @@
 			</div>
 		</div>
 	</div>
-	<script>
+		<script>
+            $(document).on('click', '#tech-del-btn', function (e) {
+                e.preventDefault();
+                alert('helllo')
+                var obj = $(this); // first store $(this) in obj
+                var id = $(this).data('id'); // get id of data using this
+                var my_data = {
+                    "id": id,
+                    'csrfmiddlewaretoken': "{{ csrf_token }}",
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'delete_category'%}",
+                    data: my_data,
+                    success: function (json) {
+                        $(obj).closest("tr").remove();
+                        alert("asset remove successfully ")
+                        $('empModal' + id).modal('hide')
+                        location.reload();
+                    },
+                });
+            });
+        </script>
+	<!-- <script>
     function getId(id) {
         var a =document.getElementById('delete_record');
         // alert(id)
         a.href = "/delete_employee/"+id;
     }
-	</script>
+	</script> -->
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->

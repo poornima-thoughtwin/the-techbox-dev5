@@ -8,11 +8,11 @@ class EmployeeForm(forms.ModelForm):
     class Meta:
         model = Employee
         widgets = {
-            'name' : forms.TextInput(attrs={'class':'form-control','placeholder':'Name'}),
-            'email' : forms.EmailInput(attrs={'class':'form-control','placeholder':'email'}),
-            'designation': forms.Select(attrs={'class':'form-control'}),
-            'phone' : forms.TextInput(attrs={'minlength': 10, 'maxlength': 15, 'required': True, 'type': 'number','class':'form-control'}), 
-            'address' : forms.TextInput(attrs={'class':'form-control','placeholder':'Address'}),     
+            'name' : forms.TextInput(attrs={'class':'form-control','placeholder':'Name','id':'name_id'}),
+            'email' : forms.EmailInput(attrs={'class':'form-control','placeholder':'email','id':'email_id'}),
+            'designation': forms.Select(attrs={'class':'form-control','id':'designation_id'}),
+            'phone' : forms.TextInput(attrs={'minlength': 10, 'maxlength': 15, 'required': True, 'type': 'number','class':'form-control','id':'phone_id'}), 
+            'address' : forms.TextInput(attrs={'class':'form-control','placeholder':'Address','id':'address_id'}),     
             
         }
         fields = "__all__"
@@ -77,3 +77,29 @@ class AssignAssetForm(forms.ModelForm):
             super().__init__(*args, **kwargs)
             self.fields['asset'].queryset =Asset.objects.all()
             self.fields['employee'].queryset = Employee.objects.all()
+
+
+    # <script>
+    #         $(document).on('click', '#delete_record', function (e) {
+    #             e.preventDefault();
+    #             var obj = $(this); // first store $(this) in obj
+    #             var id = $(this).data('id'); // get id of data using this
+    #             var my_data = {
+    #                 "id": id,
+    #                 'csrfmiddlewaretoken': "{{ csrf_token }}",
+    #             }
+    #             $.ajax({
+    #                 type: 'POST',
+    #                 url: "{% url 'delete_employee'  %}",
+    #                 data: my_data,
+    #                 success: function (json) {
+    #                     $(obj).closest("tr").remove();
+    #                     alert("Employee remove successfully ")
+    #                     $('empModal' + id).modal('hide')
+    #                     location.reload();
+    #                 },
+    #             });
+    #         });
+    #     </script>
+     
+

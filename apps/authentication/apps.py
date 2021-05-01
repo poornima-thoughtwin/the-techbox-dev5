@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class TechboxappConfig(AppConfig):
-    name = 'techboxapp'
+class AuthenticationConfig(AppConfig):
+    name = 'authentication'

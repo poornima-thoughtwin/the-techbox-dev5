@@ -11,8 +11,10 @@
 	<div class="col-md-12">
 		<div class="card">
 			<div class="card-header card-header-primary p-3 d-flex justify-content-between">
-				<h4 class="card-title ">Employee Table</h4>
-				<a href="{% url 'create_employee' %}" class="btn btn-sucess">Add</a>
+			<h4 class="card-title ">Employee Table</h4>
+
+
+			<a href="{% url 'create_employee' %}" class="btn btn-sucess">Add</a>
  			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -40,7 +42,7 @@
 								Action
 							</th>
 						</thead>
-						<tbody>
+						<tbody class= "new_row">
 							{% for data in employee_list %}
 
 							<tr>
@@ -63,9 +65,13 @@
 									{{data.status}}
 								</td>
 								<td>
+								 <div>
+                                <input class="btn btn-danger btn-sm" type="button"
+                                   data-id="{{ data.id }}" id="tech-del-btn" value="Delete ">
+                                </div>
 								
-								<a href="{% url 'delete_employee' data.id %} "class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" onClick="getId('{{data.id}}')">Delete</a>
-								<a href="{% url 'update_employee' data.id %} "class="btn btn-sucess">Update</a>
+								
+								<a href="{% url 'update_employee' data.id %} "class="btn btn-sucess btn-sm">Update</a>
 
 								</td>
 							</tr>
@@ -93,13 +99,62 @@
 	</div>
 	
 	<script>
-    function getId(id) {
-        var a =document.getElementById('delete_record');
-        // alert(id)
-        a.href = "/delete_employee/"+id;
-    }
-	</script>
+            $(document).on('click', '#tech-del-btn', function (e) {
+                e.preventDefault();
+                alert('helllo')
+                var obj = $(this); // first store $(this) in obj
+                var id = $(this).data('id'); // get id of data using this
+                var my_data = {
+                    "id": id,
+                    'csrfmiddlewaretoken': "{{ csrf_token }}",
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'delete_employee'%}",
+                    data: my_data,
+                    success: function (json) {
+                        $(obj).closest("tr").remove();
+                        alert("Employee remove successfully ")
+                        $('empModal' + id).modal('hide')
+                        location.reload();
+                    },
+                });
+            });
+        </script>
+         <!-- <script>
+            $(document).on('click', '#create-btn', function (e) {
+                e.preventDefault(); 
+                alert('helllo')
+                var name = $('#name_id'); // first store $(this) in obj
+                var email = $('#email_id');
+                var designation = $('#designation_id');
+                var phone = $('#phone_id');
+                var address = $('#address_id');
+                var my_data = {
+                    "name": name,
+                    "email": email,
+                    "designation": designation,
+                    "phone": phone,
+                    "address": address,
+                    'csrfmiddlewaretoken': "{{ csrf_token }}",
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'create_employee'%}",
+                    data: my_data,
+                    success: function (json) {
+                      $('.new_row').append(json)
+                      alert('create_employee successfully')
 
+                    },
+                });
+            });
+        </script>
+
+ -->
 {% endblock content %}
-<!-- Specific Page JS goes HERE  -->
 {% block javascripts %}{% endblock javascripts %}
+ <!-- <div>
+        <input class="btn btn-danger btn-sm" type="button"
+        data-id="{{ tool.id }}" id="tech-del-btn" value="Delete ">
+    </div> -->
