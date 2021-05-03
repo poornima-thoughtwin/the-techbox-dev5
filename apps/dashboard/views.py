@@ -20,8 +20,68 @@ import datetime
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.views import View
-
+from django.conf import settings # new
+from django.http.response import JsonResponse # new
+from django.views.decorators.csrf import csrf_exempt # new
+from django.views.generic.base import TemplateView
+import stripe
+from django.conf import settings
 #......................................................................................................................
+
+class HomePageView(TemplateView):
+    template_name = 'registration/home.html'
+
+
+# new
+@csrf_exempt
+def stripe_config(request):
+    if request.method == 'GET':
+        stripe_config = {'publicKey': settings.STRIPE_PUBLISHABLE_KEY}
+        return JsonResponse(stripe_config, safe=False)
+
+
+
+@csrf_exempt
+def create_checkout_session(request):
+    if request.method == 'GET':
+        domain_url = 'http://localhost:8000/'
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        try:
+            # Create new Checkout Session for the order
+            # Other optional params include:
+            # [billing_address_collection] - to display billing address details on the page
+            # [customer] - if you have an existing Stripe Customer ID
+            # [payment_intent_data] - capture the payment later
+            # [customer_email] - prefill the email input in the form
+            # For full details see https://stripe.com/docs/api/checkout/sessions/create
+
+            # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
+            checkout_session = stripe.checkout.Session.create(
+                success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
+                cancel_url=domain_url + 'cancelled/',
+                payment_method_types=['card'],
+                mode='payment',
+                line_items=[
+                    {
+                        'name': 'pen drive',
+                        'quantity': 1,
+                        'currency': 'usd',
+                        'amount': '100',
+                    }
+                ]
+            )
+            return JsonResponse({'sessionId': checkout_session['id']})
+        except Exception as e:
+            return JsonResponse({'error': str(e)})
+
+class SuccessView(TemplateView):
+    template_name = 'registration/success.html'
+
+
+class CancelledView(TemplateView):
+    template_name = 'registration/cancelled.html'
+
+
 @method_decorator(login_required, name='dispatch')
 class MyView(View):
     def get(self, request):
@@ -32,6 +92,7 @@ class MyView(View):
         category = Category.objects.all().count()
         return render(request,'index.html', {'employee':employee,'asset':asset,'assetassign':assetassign,'category':category,'assetassign_list':assetassign_list})
 
+
 class CreateEmployeeView(SuccessMessageMixin,CreateView):
     form_class = EmployeeForm
     # print(request.POST)
@@ -40,39 +101,7 @@ class CreateEmployeeView(SuccessMessageMixin,CreateView):
     success_url ="/employee/"
     success_message = "Employee was Created successfully"
 
-# class CreateEmployeeView(View):
 
-#     def get(self, request):
-#         form = EmployeeForm
-#         return render(request, 'employee/employee.html', {'form': form})
-
-#     def post(self, request, *args, **kwargs):
-#         try:
-#             data = {}
-#             emp_form = EmployeeForm(request.POST, request.FILES)
-#             print(request.POST),
-#             print(request.FILES)
-#             if emp_form.is_valid():
-#                 emp_form.save()
-#                 messages.success(request, 'Employee Add success')
-#                 newemp = Employee.objects.get(name=request.POST.get('name'))
-#                 data['newemp'] = newemp
-
-#                 return render(request, 'employee/new_row.html', data)
-#             else:
-#                 return HttpResponse("not valid")
-
-#         except Exception as e:
-#             print(e)
-#         return render(request, 'employee/new_row.html')
-
-# class EmployeeView(ListView):
-#     form = EmployeeForm
-#     model = Employee
-#     #template_name = "employee/employee_list.html"
-#     paginate_by = 3
-#     queryset = Employee.objects.all()
-#     template_name = "employee/employee.html"
 
 
 class EmployeeView(View):
@@ -87,11 +116,6 @@ class EmployeeView(View):
         return render(request, 'employee/employee.html', data)
 
 
-# class DeleteEmployeeView(SuccessMessageMixin,DeleteView):
-#     model = Employee
-#     template_name = "employee/employee_confirm_delete.html"
-#     success_url ="/employee/"
-#     success_message = "Employee was Deleted successfully"
 
 
 class DeleteEmployeeView(View):
@@ -128,23 +152,6 @@ class AssetView(ListView):
     template_name = "asset/asset.html"
     paginate_by = 3
 
-# class AssetView(View):
-
-#     #@method_decorator(login_required(login_url="/login/"))
-#     def get(self, request):
-#         data = {}
-#         asset = Asset.objects.all()
-#         print(asset)
-#         data['asset_list'] = asset
-#         data['form'] = AssetForm
-
-#         return render(request, 'asset/asset.html', data)
-
-# class AssetDeleteView(DeleteView):
-#     model = Asset
-#     template_name = "asset/asset_confirm_delete.html"
-#     success_url ="/asset/"
-#     success_message = "Asset was delete successfully"
 
 class AssetDeleteView(View):
 
@@ -187,11 +194,7 @@ class CategoryView(View):
         page_obj =paginator.get_page(page_number)
         return render(request,"category/category.html",{'category_list':category,'page_obj':page_obj})
 
-# class CategoryDeleteView(View):
-#     def get(self,request,id):
-#         qureyset = Category.objects.filter(id=id).delete()
-#         messages.success(request,'Category successfully Deleted')
-#         return HttpResponseRedirect("/category/")
+
 
 class CategoryDeleteView(View):
 
@@ -300,70 +303,5 @@ class AssetAssignDeleteView(View):
 
 #......................................................................................
 
-# @login_required
-# def show_mutual_fund(request):
-#     user = User.objects.get(username = request.user)   
-#     funds = Mutual_Fund.objects.filter(user__pk=user.id)
-#     paginator=Paginator(funds,6)
-#     page_number= request.GET.get('page')
-#     page_obj =paginator.get_page(page_number)
-#     return render(request,'dashboard/show_mutual_fund.html',{'page_obj':page_obj})
 
 
-
-# def user_profile(request):
-#     # breakpoint()
-#     if request.method=="POST":
-#         username =  request.POST.get("username")
-#         print(username)
-#         password = request.POST.get("password")
-#         email = request.POST.get("email")    
-#         contact_number = request.POST.get("contact_number")
-#         city = request.POST.get("city")
-#         about = request.POST.get("about")
-#         gender = request.POST.get("gender")
-#         occupation =request.POST.get("occupation")
-#         dob = request.POST.get("dob")
-#         user_check = User.objects.filter(username=username).first()
-#     if user_check is None:
-
-#         # breakpoint()
-#         user = User(username=username,email=email)
-#         user.set_password(password)
-#         user.save()
-#         img = request.POST.get('profile_pic')
-#         reg = user_profile.objects.create(user=user, 
-#                                         contact_number=contact_number, 
-#                                         city=city, 
-#                                         about=about, 
-#                                         gender=gender, 
-#                                         occupation=occupation,
-#                                         profile_pic=img)
-#         return redirect('home')
-
-
-#     elif user_check is not None:
-#         return JsonResponse({"status":"user alredy exist"})
-#     else:
-#         return render(request,"registration/user_profile.html")
-
-# #.........................................................................................
-
-
-# @method_decorator(login_required, name='dispatch')
-# class CategoryDeleteView(SuccessMessageMixin,generic.DeleteView):
-#     model = Category
-#     success_message = "Category was Deleted successfully"
-#     success_url = reverse_lazy('dashboard:view_category')
-#     def get(self, request, *args, **kwargs):
-#         messages.success(self.request, self.success_message)
-#         return self.delete(request, *args, **kwargs)
-
-
-
- # path('api/employee/create',api_views.EmployeeCreateApi.as_view(),name='api_employee_create'),
-    # path('api/employee/list',api_views.EmployeeListApi.as_view(),name='api_employee_list'),
-    # path('api/employee/update/<int:pk>',api_views.EmployeeUpdateApi.as_view(),name='api_employee_update'),
-    # path('api/employee/delete/<int:pk>',api_views.EmployeeDeleteApi.as_view(),name='api_employee_delte'),
-
-    

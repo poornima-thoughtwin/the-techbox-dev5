@@ -11,7 +11,7 @@ from django.contrib import admin
 from django.conf.urls.static import  static
 from django.conf import settings
 from django.urls import path,include
-from . import views 
+from . import views
 from django.contrib import admin
 from django.urls import path,include
 from . import views 
@@ -20,6 +20,8 @@ from django.conf import settings
 # from django.contrib.auth import views
 # from .serializers import *
 #>>>>>>
+from django.views.decorators.cache import cache_page
+
 #..............................................................................................
 urlpatterns = [
 	path('search/',views.SearchResultsView.as_view(),name="search"),
@@ -48,11 +50,8 @@ urlpatterns = [
     path('create_assetassign/', views.AssetAssignCreateView.as_view(),name="create_assetassign"),
     path('delete_assetassign/<int:id>', views.AssetAssignDeleteView.as_view(),name="delete_assetassign"),
 
-#..........................................................................
-    #path('user_profile/', views.UserProfileView.as_view(),name="user_profile"),
-    #path('user_profile/', views.UuserProfileUpdateView.as_view(),name="user_profile"),
-    path('api/login_user/', TokenObtainPairView.as_view(), name='login user'),
-    # path('api/data_list/',name='data_list'),
+
+    #path('api/login_user/', TokenObtainPairView.as_view(), name='login user'),
 
     path('api/asset/list', AssetList.as_view(),name='api_asset_list'),
     path('api/asset/create/',AssetList.as_view(),name='api_create_asset'),
@@ -79,15 +78,15 @@ urlpatterns = [
     path('api/category/create/',CategoryList.as_view(),name='api_category_create'),
     path('api/category/delete/<int:pk>',CategoryDetail.as_view(),name='api_category_delete'),
     path('api/category/update/<int:pk>',CategoryDetail.as_view(),name='api_category_update'),
+    path('home/', views.HomePageView.as_view(), name='home'),
+    path('config/', views.stripe_config),  # new
+    path('create-checkout-session/', views.create_checkout_session), # new
+    path('success/', views.SuccessView.as_view()), # new
+    path('cancelled/', views.CancelledView.as_view()), # new
+    # path('myhome/',cache_page(60)(views.myhome),name='myhome')
 
-]
 
-# from django.urls import path
-# from todos.views import TodoListCreateAPIView, TodoDetailAPIView
-# ​
-# app_name = 'todos'
-# ​
-# urlpatterns = [
-#     path('', TodoListCreateAPIView.as_view(), name="list"),
-#     path('<int:pk>/', TodoDetailAPIView.as_view(), name="detail"),
-# ]
+]  
+
+
+

@@ -25,18 +25,18 @@ def create_profile(sender, instance, created, **kwargs):
 
 
 
-@receiver(post_save, sender=User) 
-def create_employee(sender, instance, created, **kwargs):
-    if created:
-    	Employee.objects.create(user=instance)
-    	print('employee created')
+# @receiver(post_save, sender=User) 
+# def create_employee(sender, instance, created, **kwargs):
+#     if created:
+#     	Employee.objects.create(user=instance)
+#     	print('employee created')
     
-#post_save.connect(create_employee,sender=User)
+# #post_save.connect(create_employee,sender=User)
 
-@receiver(post_save, sender=User) 
-def update_employee(sender, instance, created, **kwargs):
-    if created == False:
-    	instance.employee.save()
-    	print('employee update')
+# @receiver(post_save, sender=User) 
+# def update_employee(sender, instance, created, **kwargs):
+#     if created == False:
+#     	instance.employee.save()
+#     	print('employee update')
 
 #post_save.connect(update_employee,sender=User)

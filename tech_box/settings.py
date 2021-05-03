@@ -54,6 +54,10 @@ INSTALLED_APPS = [
     'authentication',
     'celery',
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    # 'payments.apps.PaymentsConfig', # new
+
 
 ]
 
@@ -65,6 +69,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'tech_box.urls'
@@ -87,6 +94,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tech_box.wsgi.application'
 
+# CACHE_MIDDLEWARE_ALIAS=
+# CACHE_MIDDLEWARE_KEY_PRIFIX=
+
+CACHE_MIDDLEWARE_SECONDS=5
+
+CACHES = {
+   'default': {
+      'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+      'LOCATION': 'techbox_caches',
+   }
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -97,6 +115,8 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
 
 # DATABASES = {
 #     'default': {
@@ -146,13 +166,15 @@ REST_FRAMEWORK = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'#DJNAGO BYdedult
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+# USE_TZ = True#bydefult
+USE_TZ = False
 
 
 
@@ -256,3 +278,6 @@ sentry_sdk.init(
 )
 
 
+
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51ImuToSJYQKegLOCoF1Ltm4634GEAmvh1irwNcJo5PVGiJ0cN3SlGoXLY5pQyBGXRkzXRrfrf1w216UbFdm0VjBC00ZpWGo0Wz'
+STRIPE_SECRET_KEY = 'sk_test_51ImuToSJYQKegLOCax5wBYbgM3zWITyfUKLrDuK9A1G2DV0mlQyILpNX7Lgx9bDgpVsYdUdSTgGjZCj3z6bZdKp600dlSvv0Xn'

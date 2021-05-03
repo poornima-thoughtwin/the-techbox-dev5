@@ -132,25 +132,3 @@ class AssetTestCase(TestCase):
 
 
 
-
-
-
-
-
-
-
-
-
-
-	# def test_02_webview_unathorized(self):
-	#     data = {"name": "Deepak Patidar","email": "mdipakpatidar@gmail.com","phone": "7415597914","address": "Dayanand colony Nagda jn Dist. Ujjain", "designation": 1}
-	#     headers = {}
-	#     endpoint = reverse('dashboard:api_employee_create')
-	#     response = self.client.post(endpoint, data=data, format='json',  **headers)
-	#     self.assertEqual(response.status_code, 201)
-	# def test_03_webview_unathorized(self):
-	#     data = {"name": "Deepak Patidar","email": "mdipakpatidar@gmail.com","phone": "07415597914","address": "Dayanand colony Nagda jn Dist. Ujjain", "designation": 1}
-	#     headers = {}
-	#     endpoint = reverse('dashboard:api_category_create')
-	#     response = self.client.post(endpoint, data=data, format='json',  **headers)
-	#     self.assertEqual(response.status_code, 201)
