@@ -24,7 +24,7 @@ def create_profile(sender, instance, created, **kwargs):
 
 
 
-
+#automatic triggering during till another work
 # @receiver(post_save, sender=User) 
 # def create_employee(sender, instance, created, **kwargs):
 #     if created:
@@ -40,3 +40,16 @@ def create_profile(sender, instance, created, **kwargs):
 #     	print('employee update')
 
 #post_save.connect(update_employee,sender=User)
+
+
+
+# @receiver(post_save, sender=TechTool)
+# def create_tool(sender, instance, created, **kwargs):
+#     if created:
+#         hi = instance.name
+#         subject = f'{hi} is  created '
+#         message = f'Hi {hi} is created successfully'
+#         from_mail = settings.EMAIL_HOST_USER
+#         recipient_list = ['virendrakapoor45@gmail.com', ]
+#         send_mail(subject, message, from_mail, recipient_list)
+#         print('created')

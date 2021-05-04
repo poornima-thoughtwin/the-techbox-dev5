@@ -17,7 +17,6 @@ from rest_framework import serializers
 #         self.assertEqual(response.status_code,200)
 #         # self.assertTemplateUsed(response,'dashboard/employee_list.html')
 
-
 class EmployeeTestCase(TestCase):
 	def setUp(self):
 		# """Define the test client and other test variables."""

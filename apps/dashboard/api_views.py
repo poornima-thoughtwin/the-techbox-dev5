@@ -13,7 +13,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from rest_framework_simplejwt.views import (TokenObtainPairView,TokenRefreshView,)
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 #curl=settings.CURRENT_URL
-from rest_framework_jwt.views import ObtainJSONWebToken
+# from rest_framework_jwt.views import ObtainJSONWebToken
 from rest_framework import serializers
 from .models import *
 from django.conf import settings

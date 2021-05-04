@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import sys
-
+import django_heroku
 # import pdb; pdb.set_trace()
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
@@ -58,8 +58,10 @@ INSTALLED_APPS = [
     'rest_auth',
     # 'payments.apps.PaymentsConfig', # new
 
-
 ]
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
