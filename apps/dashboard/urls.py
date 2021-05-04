@@ -49,10 +49,7 @@ urlpatterns = [
     path('assetassign/', views.AssetAssignView.as_view(),name="assetassign"),
     path('create_assetassign/', views.AssetAssignCreateView.as_view(),name="create_assetassign"),
     path('delete_assetassign/<int:id>', views.AssetAssignDeleteView.as_view(),name="delete_assetassign"),
-
-
     #path('api/login_user/', TokenObtainPairView.as_view(), name='login user'),
-
     path('api/asset/list', AssetList.as_view(),name='api_asset_list'),
     path('api/asset/create/',AssetList.as_view(),name='api_create_asset'),
     path('api/asset/delete/<int:pk>',AssetDetail.as_view(),name='api_asset_delete'),

@@ -37,7 +37,7 @@ SECRET_KEY = '@pj1fu)7b8(z!2#m@=5t+bk#q!$bl3fej$ce33(r#-9*1eu6m$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*','127.0.0.1','localhost:8000','techbox-dev5.herokuapp.com']
 
 
 # Application definition
@@ -182,7 +182,7 @@ USE_TZ = False
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/static/'
+STATIC_ROOT = 'static'
 MEDIA_URL ="/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 LOGIN_REDIRECT_URL="/index/"

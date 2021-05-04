@@ -1,1 +1,1 @@
-python-3.8.5
+web: gunicorn tech_box.wsgi --log-file -
