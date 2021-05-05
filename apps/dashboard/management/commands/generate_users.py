@@ -25,8 +25,6 @@ class Command(BaseCommand):
 
             if admin:
                 User.objects.create_superuser(username=username, email='', password='123')
-                #self.stdout.write(self.style.SUCCESS('User "%s (%s)" created success!' % (user.username, user_id)))
 
             else:
                 User.objects.create_user(username=username, email='poornima@gmail.com', password='123')
-                #self.stdout.write(self.style.SUCCESS('User "%s (%s)" created  success!' % (user.username, user_id)))

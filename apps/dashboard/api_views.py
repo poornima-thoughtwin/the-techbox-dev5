@@ -1,3 +1,13 @@
+from rest_framework import serializers
+from .models import *
+from django.conf import settings
+from rest_framework.response import Response
+from .models import AssetAssign
+from .serializers import *
+from rest_framework.views import APIView
+from django.http import Http404
+from rest_framework.response import Response
+from rest_framework import status
 from django.shortcuts import render,redirect
 from django.contrib.auth import get_user_model
 from rest_framework.renderers import JSONRenderer
@@ -14,17 +24,8 @@ from rest_framework_simplejwt.views import (TokenObtainPairView,TokenRefreshView
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 #curl=settings.CURRENT_URL
 # from rest_framework_jwt.views import ObtainJSONWebToken
-from rest_framework import serializers
-from .models import *
-from django.conf import settings
-from rest_framework.response import Response
-from .models import AssetAssign
-from .serializers import *
-from rest_framework.views import APIView
-from django.http import Http404
-from rest_framework.response import Response
-from rest_framework import status
-from .models import *
+from django.views.generic import TemplateView
+
 
 
 
@@ -267,3 +268,42 @@ class  CategoryDetail(APIView):
         category.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+
+# import stripe
+# @api_view(['POST'])
+# @permission_classes([AllowAny])
+# def stripe_token(request):
+#     response=Response()
+#     if request.method =='POST':
+#         client_id='pk_test_51ImuToSJYQKegLOCoF1Ltm4634GEAmvh1irwNcJo5PVGiJ0cN3SlGoXLY5pQyBGXRkzXRrfrf1w216UbFdm0VjBC00ZpWGo0Wz'
+#         client_secret='sk_test_51ImuToSJYQKegLOCax5wBYbgM3zWITyfUKLrDuK9A1G2DV0mlQyILpNX7Lgx9bDgpVsYdUdSTgGjZCj3z6bZdKp600dlSvv0Xn'
+#         headers = {
+#         'Content-Type':'application/x-www-form-urlencoded',
+
+#         }
+#         body={
+#         'grant_type':'client_credentials'
+
+#         }
+#         r = request.POST('https://stripe.com/docs/payments/accept-a-payment-charges#web',body,headers,auth=(client_id,client_secret))
+#         # `source` is obtained with Stripe.js; see https://stripe.com/docs/payments/accept-a-payment-charges#web-create-token
+
+#         print(r.status_code,r.reason)
+#         print(type(r))
+#         if r.status_code==200:
+            
+#             dat = json.loads(r.text)
+#             response.data={
+#             'success':200,
+#             'access_token':dat['access_token']
+#             }
+#             return response
+
+#         else:
+#             response.data={
+#             'success':201,
+#             'access_token':''
+
+#             }
+#             return response

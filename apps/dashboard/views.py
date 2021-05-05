@@ -283,7 +283,7 @@ class AssetAssignCreateView(View):
             MAIL(employee,asset)
             messages.success(request,'AssetAssign successfully Created')
         return HttpResponseRedirect("/assetassign/")
-   
+    
 
 class AssetAssignDeleteView(View):
     def get(self,request,id):
@@ -295,5 +295,25 @@ class AssetAssignDeleteView(View):
 
 #......................................................................................
 
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+class HomePageView(TemplateView):
+    template_name = 'registration/home1.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['key'] = settings.STRIPE_PUBLISHABLE_KEY
+        return context
+
+
+# class ChargeView(TemplateView):
+def charge(request): # new
+    if request.method == 'POST':
+        charge = stripe.Charge.create(
+            amount=100,
+            currency='inr',
+            description='A Django charge',
+            source=request.POST['stripeToken']
+        )
+    return render(request, 'registration/charge.html')
 
 

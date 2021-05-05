@@ -11,17 +11,18 @@ from django.contrib import admin
 from django.conf.urls.static import  static
 from django.conf import settings
 from django.urls import path,include
-from . import views
+from . import views 
 from django.contrib import admin
 from django.urls import path,include
-from . import views 
 from dashboard.api_views import CategoryList,CategoryDetail,DesignationDetail,DesignationList,AssetList,AssetDetail,EmployeeDetail,EmployeeList,AssetAssignDetail,AssetAssignList
 from django.conf import settings
 # from django.contrib.auth import views
 # from .serializers import *
+from dashboard import views
+
 #>>>>>>
 from django.views.decorators.cache import cache_page
-
+from rest_framework.views import APIView 
 #..............................................................................................
 urlpatterns = [
 	path('search/',views.SearchResultsView.as_view(),name="search"),
@@ -76,12 +77,15 @@ urlpatterns = [
     path('api/category/delete/<int:pk>',CategoryDetail.as_view(),name='api_category_delete'),
     path('api/category/update/<int:pk>',CategoryDetail.as_view(),name='api_category_update'),
     path('home/', views.HomePageView.as_view(), name='home'),
-    path('config/', views.stripe_config),  # new
-    path('create-checkout-session/', views.create_checkout_session), # new
-    path('success/', views.SuccessView.as_view()), # new
-    path('cancelled/', views.CancelledView.as_view()), # new
+    # path('config/', views.stripe_config),  # new
+    # path('create-checkout-session/', views.create_checkout_session), # new
+    # path('success/', views.SuccessView.as_view()), # new
+    # path('cancelled/', views.CancelledView.as_view()), # new
     # path('myhome/',cache_page(60)(views.myhome),name='myhome')
-
+    #path('api/stripe_token/', views.stripe_token),#update
+    # path('charge/', views.ChargeView, name='charge'), # new
+    # path('test/', views.HomePageView.as_view(), name='test'),
+    path('charge/', views.charge, name='charge'), # new
 
 ]  
 
