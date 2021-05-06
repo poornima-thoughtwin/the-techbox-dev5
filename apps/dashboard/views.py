@@ -285,14 +285,24 @@ class AssetAssignCreateView(View):
         return HttpResponseRedirect("/assetassign/")
     
 
-class AssetAssignDeleteView(View):
-    def get(self,request,id):
-        qureyset = AssetAssign.objects.get(id=id)
-        qureyset.delete()
-        messages.success(request,'AssetAssign successfully Deleted')
-        return HttpResponseRedirect("/assetassign")
+# class AssetAssignDeleteView(View):
+#     def get(self,request,id):
+#         qureyset = AssetAssign.objects.get(id=id)
+#         qureyset.delete()
+#         messages.success(request,'AssetAssign successfully Deleted')
+#         return HttpResponseRedirect("/assetassign")
     
 
+class AssetAssignDeleteView(View):
+
+    def post(self, request):
+        assetassign_id = request.POST.get('id')
+        print(assetassign_id)
+        assetassign = AssetAssign.objects.get(id=assetassign_id)
+
+        assetassign.delete()
+
+        return HttpResponseRedirect("/assetassign")
 #......................................................................................
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -305,15 +315,18 @@ class HomePageView(TemplateView):
         return context
 
 
-# class ChargeView(TemplateView):
 def charge(request): # new
     if request.method == 'POST':
         charge = stripe.Charge.create(
             amount=100,
             currency='inr',
-            description='A Django charge',
+            description='Pen Drive',
             source=request.POST['stripeToken']
         )
     return render(request, 'registration/charge.html')
+
+
+
+   
 
 

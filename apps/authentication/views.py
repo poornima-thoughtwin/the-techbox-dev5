@@ -113,3 +113,6 @@ def user_profile(request):
         return render(request,"registration/user_profile.html")
 
 #....................................................
+
+
+       

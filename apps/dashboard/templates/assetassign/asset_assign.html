@@ -51,7 +51,11 @@
 									{{data.expire_date}}
 								</td>
 								<td>
-								<a href="{% url 'delete_assetassign' data.id %} "class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" onClick="getId('{{data.id}}')">submit</a>		
+								<div>
+                                <input class="btn btn-danger btn-sm" type="button"
+                                   data-id="{{ data.id }}" id="tech-del-btn" value="Delete ">
+                                </div>
+							
 
 								</td>
 							</tr>
@@ -77,12 +81,28 @@
 		</div>
 	</div>
 	<script>
-    function getId(id) {
-        var a =document.getElementById('delete_record');
-        // alert(id)
-        a.href = "/delete_assetassign/"+id;
-    }
-	</script>
+            $(document).on('click', '#tech-del-btn', function (e) {
+                e.preventDefault();
+                var obj = $(this); // first store $(this) in obj
+                var id = $(this).data('id'); // get id of data using this
+                var my_data = {
+                    "id": id,
+                    'csrfmiddlewaretoken': "{{ csrf_token }}",
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'delete_assetassign'%}",
+                    data: my_data,
+                    success: function (json) {
+                        $(obj).closest("tr").remove();
+                        alert("Assign remove successfully ")
+                        $('empModal' + id).modal('hide')
+                        location.reload();
+                    },
+                });
+            });
+        </script>
+	
 {% endblock content %}
 
 {% block javascripts %}{% endblock javascripts %}

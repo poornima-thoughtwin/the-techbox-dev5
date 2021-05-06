@@ -49,7 +49,7 @@ urlpatterns = [
 #........................................................................................
     path('assetassign/', views.AssetAssignView.as_view(),name="assetassign"),
     path('create_assetassign/', views.AssetAssignCreateView.as_view(),name="create_assetassign"),
-    path('delete_assetassign/<int:id>', views.AssetAssignDeleteView.as_view(),name="delete_assetassign"),
+    path('delete_assetassign/', views.AssetAssignDeleteView.as_view(),name="delete_assetassign"),
     #path('api/login_user/', TokenObtainPairView.as_view(), name='login user'),
     path('api/asset/list', AssetList.as_view(),name='api_asset_list'),
     path('api/asset/create/',AssetList.as_view(),name='api_create_asset'),
@@ -64,7 +64,7 @@ urlpatterns = [
 
     path('api/assetassign/list', AssetAssignList.as_view(),name='api_assetassign_list'),
     path('api/assetassign/create/',AssetAssignList.as_view(),name='create_assetassign_list'),
-    path('api/assetassign/delete/<int:pk>',AssetAssignDetail.as_view(),name='api_delete_assetassign'),
+    path('api/assetassign/delete/',AssetAssignDetail.as_view(),name='api_delete_assetassign'),
     path('api/assetassign/update/<int:pk>',AssetAssignDetail.as_view(),name='api_update_assetassign'),
 
     path('api/designation/list', DesignationList.as_view(),name='api_designation_list'),
@@ -81,11 +81,10 @@ urlpatterns = [
     # path('create-checkout-session/', views.create_checkout_session), # new
     # path('success/', views.SuccessView.as_view()), # new
     # path('cancelled/', views.CancelledView.as_view()), # new
-    # path('myhome/',cache_page(60)(views.myhome),name='myhome')
-    #path('api/stripe_token/', views.stripe_token),#update
     # path('charge/', views.ChargeView, name='charge'), # new
     # path('test/', views.HomePageView.as_view(), name='test'),
     path('charge/', views.charge, name='charge'), # new
+
 
 ]  
 
