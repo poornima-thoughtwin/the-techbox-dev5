@@ -15,6 +15,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
+from django.shortcuts import render,redirect, HttpResponseRedirect
+
 #............................................................................... Create your views here.
 
 class LoginView(View):
@@ -80,19 +82,21 @@ def myregister(request):
 
 def user_profile(request):
     if request.method=="POST":
-        username =  request.POST.get("username")
-        print(username)
-        password = request.POST.get("password")
-        email = request.POST.get("email")    
+        # username =  request.POST.get("username")
+        # print(username)
+        # password = request.POST.get("password")
+        # email = request.POST.get("email")    
         contact_number = request.POST.get("contact_number")
+        print(contact_number)
         city = request.POST.get("city")
         about = request.POST.get("about")
         gender = request.POST.get("gender")
         occupation =request.POST.get("occupation")
         dob = request.POST.get("dob")
-        user_check = User.objects.filter(username=username).first()
-        if user_check is None:
-            user = User.objects.create_user(username,email,password)
+        user_check = User.objects.filter(username=request.user).first()
+        print(user_check)
+        if user_check is not None:
+            # user = User.objects.create(username,email,password)
             # user = User(username=username,email=email)
             # user.set_password(password)
             # user.save()
@@ -108,7 +112,7 @@ def user_profile(request):
 
 
         elif user_check is not None:
-            return JsonResponse({"status":"user alredy exist"})
+            return HttpResponse("Inactive user.")
     else:
         return render(request,"registration/user_profile.html")
 

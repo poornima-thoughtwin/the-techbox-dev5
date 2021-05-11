@@ -1,0 +1,33 @@
+{% load i18n %}
+<h1>{{ title }}</h1>
+<p>{% trans "Life is life." %}</p>
+
+{% get_current_language as LANGUAGE_CODE %}
+LANGUAGE_CODE: {{ LANGUAGE_CODE }}
+
+<!-- START -->
+<br><br>
+
+<a href="{% url 'admin:index' %}">
+    {% trans 'Site administration' %}
+</a>
+<!-- END -->
+<br><br>
+<ul>
+    {% for post in posts %}
+        <li>{{ post.text }}</li>
+<form action="{% url 'change_language' %}" method="post">
+    {% csrf_token %}
+    <select name="language">   
+        {% get_available_languages as LANGUAGES %}
+        {% for language in LANGUAGES %}       
+        <option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE %} selected{% endif %}>
+            {{ language.0|language_name_local }} ({{ language.0 }})
+        </option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Change language">
+</form>
+
+   {% endfor %}
+</ul>

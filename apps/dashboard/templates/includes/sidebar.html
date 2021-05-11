@@ -1,9 +1,12 @@
+    
+{% load i18n %}
+
     <div class="sidebar" data-color="purple" data-background-color="white" data-image="/static/assets/img/sidebar-1.jpg">
       <div class="logo">
         <a target="_blank" rel="noopener noreferrer" 
            target="_blank" rel="noopener noreferrer" 
            href="https://www.creative-tim.com/product/material-dashboard-django" class="simple-text logo-normal">
-          TechBox Admin 
+          {% trans 'TechBox Admin' %}
         </a>
       </div>
      <div class="sidebar-wrapper">
@@ -11,37 +14,37 @@
           <li class="nav-item {% if 'index' == segment %} active {% endif %}">
             <a class="nav-link" href="/index/">
               <i class="material-icons">dashboard</i>
-              <p>Dashboard</p>
+              <p>{% trans 'Dashboard' %}</p>
             </a>
           </li>
           <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
             <a class="nav-link" href="{% url 'employee' %}">
               <i class="material-icons">person</i>
-              <p>Employee list</p>
+              <p>{% trans 'Employee list' %}</p>
             </a>
           </li>
           <li class="nav-item {% if 'ui-tables' in segment %} active {% endif %}">
             <a class="nav-link" href="{% url 'asset' %}">
               <i class="material-icons">content_paste</i>
-              <p>Asset List</p>
+              <p>{% trans 'Asset List' %}</p>
             </a>
           </li>
           <li class="nav-item {% if 'ui-typography' in segment %} active {% endif %}">
             <a class="nav-link" href="{% url 'category' %}">
               <i class="material-icons">library_books</i>
-              <p>category</p>
+              <p>{% trans 'category' %}</p>
             </a>
           </li>
           <li class="nav-item {% if 'ui-icons' in segment %} active {% endif %}">
             <a class="nav-link" href="{% url 'designation' %}">
               <i class="material-icons">bubble_chart</i>
-              <p>Designation</p>
+              <p>{% trans 'Designation' %}</p>
             </a>
           </li>
            <li class="nav-item {% if 'ui-icons' in segment %} active {% endif %}">
             <a class="nav-link" href="{% url 'assetassign' %}">
               <i class="material-icons">library_books</i>
-              <p>Assets_Assign</p>
+              <p>{% trans 'Assets_Assign' %}</p>
             </a>
           </li>
         <!--   <li class="nav-item {% if 'ui-icons' in segment %} active {% endif %}">

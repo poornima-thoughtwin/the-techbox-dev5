@@ -5,13 +5,15 @@
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
+{% load i18n %}
+
 </body>
 </html>
 <div class="row">
 	<div class="col-md-12">
 		<div class="card">
 			<div class="card-header card-header-primary p-3 d-flex justify-content-between">
-			<h4 class="card-title ">Employee Table</h4>
+			<h4 class="card-title ">{% trans 'Employee Table' %}</h4>
 
 
 			<a href="{% url 'create_employee' %}" class="btn btn-sucess">Add</a>
@@ -21,25 +23,30 @@
 					<table class="table">
 						<thead class=" text-primary">
 							<th>
-								Name
+								{% trans 'Name' %}
 							</th>
 							<th>
-								Email
+								{% trans 'Email' %}
+
 							</th>
 							<th>
-								Designation
+								{% trans 'Designation' %}
 							</th>
 							<th>
-								Phone
+								{% trans 'Phone' %}
+
 							</th>
 							<th>
-								Address
+								{% trans 'Address' %}
+
 							</th>
 							<th>
-								Status
+								{% trans 'Status' %}
+
 							</th>
 							<th>
-								Action
+								{% trans 'Action' %}
+
 							</th>
 						</thead>
 						<tbody class= "new_row">

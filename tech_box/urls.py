@@ -13,26 +13,35 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+from django.urls import path, include, re_path
+def trigger_error(request):
+    division_by_zero = 1 / 0
 from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import  static
 from django.conf import settings
+from django.views.i18n import set_language
+from django.conf.urls.i18n import i18n_patterns
 urlpatterns = static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-
-def trigger_error(request):
-    division_by_zero = 1 / 0
-
-
 urlpatterns += [
-    path('sentry-debug/', trigger_error),
-
     path('admin/', admin.site.urls),
     path('', include('dashboard.urls')),
     path('', include('authentication.urls')),
     path('rest-auth/', include('rest_auth.urls')),
-    # path('', include('payments.urls')), # new
-
+    path(r'^i18n/', include('django.conf.urls.i18n')),
+    path('setlang/', set_language, name='set_language'),
 
 
 ]+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
+urlpatterns = i18n_patterns(
+    path('', include('dashboard.urls')),
+    path('', include('authentication.urls')),
+    path(r'^i18n/', include('django.conf.urls.i18n')),
+)+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

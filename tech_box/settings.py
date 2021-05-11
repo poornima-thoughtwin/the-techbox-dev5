@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
+from django.utils.translation import ugettext_lazy as _
+
+import datetime
 
 import os
 import sys
@@ -43,37 +46,42 @@ ALLOWED_HOSTS = ['*','127.0.0.1','localhost:8000','techbox-dev5.herokuapp.com']
 # Application definition
 
 INSTALLED_APPS = [
+    'admin_interface',
+    'colorfield',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'apps',
     'apps.dashboard',
     'authentication',
     'celery',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
-    # 'payments.apps.PaymentsConfig', # new
+    'translations',
+
 
 ]
-
+X_FRAME_OPTIONS='SAMEORIGIN'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.locale.LocaleMiddleware',  # <-- here
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
+    
+
 ]
 
 ROOT_URLCONF = 'tech_box.urls'
@@ -163,22 +171,33 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ]
 }
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 # TIME_ZONE = 'UTC'#DJNAGO BYdedult
 TIME_ZONE = 'Asia/Kolkata'
-
 USE_I18N = True
-
 USE_L10N = True
-
 # USE_TZ = True#bydefult
-USE_TZ = False
+USE_TZ = True
 
+   
 
+LANGUAGES = [
+   ('hi', ('Hindi')),
+   ('en', ('English')),
+   ('fr', ('French')),
+   ('ar',('Arabic'))
+]
+
+# LANGUAGE_PATHS = [
+#     os.path.join(BASE_DIR, 'locale'),  # base folder where manage.py resides
+#     os.path.join(BASE_DIR, 'homeblog/locale')  # app folder
+# ]
+
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 
 
 STATIC_URL = '/static/'
@@ -251,9 +270,7 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Kolkata'
 
-# sender_email = "themindzworld@gmail.com"
-# receiver_email = userMail
-# password = 'TeamWork@mindzworld@'
+
 
 
 
@@ -283,3 +300,5 @@ sentry_sdk.init(
 
 STRIPE_PUBLISHABLE_KEY = 'pk_test_51ImuToSJYQKegLOCoF1Ltm4634GEAmvh1irwNcJo5PVGiJ0cN3SlGoXLY5pQyBGXRkzXRrfrf1w216UbFdm0VjBC00ZpWGo0Wz'
 STRIPE_SECRET_KEY = 'sk_test_51ImuToSJYQKegLOCax5wBYbgM3zWITyfUKLrDuK9A1G2DV0mlQyILpNX7Lgx9bDgpVsYdUdSTgGjZCj3z6bZdKp600dlSvv0Xn'
+
+
