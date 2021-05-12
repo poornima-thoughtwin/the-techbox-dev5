@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-11 17:57+0530\n"
+"POT-Creation-Date: 2021-05-12 10:52+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,12 +24,11 @@ msgid "Custom Admin Title"
 msgstr "Titre d'administrateur personnalisé"
 
 #: apps/dashboard/templates/employee/employee.html:16
-#, fuzzy
-#| msgid "Employee list"
 msgid "Employee Table"
 msgstr "Liste des employés"
 
 #: apps/dashboard/templates/employee/employee.html:26
+#: apps/dashboard/templates/index.html:92
 msgid "Name"
 msgstr "Nom"
 
@@ -55,8 +54,9 @@ msgid "Status"
 msgstr "Statut"
 
 #: apps/dashboard/templates/employee/employee.html:48
+#: apps/dashboard/templates/index.html:101
 msgid "Action"
-msgstr "Action"
+msgstr "action"
 
 #: apps/dashboard/templates/homeblog/my_view.html:3
 #: apps/dashboard/templates/includes/sidebar.html:9
@@ -73,8 +73,6 @@ msgid "search"
 msgstr "rechercher"
 
 #: apps/dashboard/templates/includes/navigation.html:28
-#, fuzzy
-#| msgid "Dashboard"
 msgid "dashboard"
 msgstr "Tableau de bord"
 
@@ -92,22 +90,34 @@ msgstr "Catégorie"
 
 #: apps/dashboard/templates/includes/sidebar.html:47
 msgid "Assets_Assign"
-msgstr "Assets_Assign"
+msgstr "Attribuer des actifs"
 
 #: apps/dashboard/templates/index.html:18
-#, fuzzy
-#| msgid "Employee list"
 msgid "Employee"
 msgstr "Liste des employés"
 
+#: apps/dashboard/templates/index.html:37
+msgid "Total Tool"
+msgstr "Outil total"
+
+#: apps/dashboard/templates/index.html:53
+msgid "Borrow Tool"
+msgstr "Outil d'emprunt"
+
 #: apps/dashboard/templates/index.html:69
-#, fuzzy
-#| msgid "category"
 msgid "Category"
 msgstr "Catégorie"
 
 #: apps/dashboard/templates/index.html:84
 msgid "Expire Table"
+msgstr "Expirer la table"
+
+#: apps/dashboard/templates/index.html:95
+msgid "Asset Item"
+msgstr "Liste des actifs"
+
+#: apps/dashboard/templates/index.html:98
+msgid "expire_date"
 msgstr "Expirer la table"
 
 #: apps/dashboard/templates/registration/home2.html:3
