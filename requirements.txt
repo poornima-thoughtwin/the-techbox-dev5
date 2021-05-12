@@ -60,3 +60,5 @@ wcwidth==0.2.5
 webencodings==0.5.1
 whitenoise==5.2.0
 gunicorn
+django-admin-interface==0.16.3
+
