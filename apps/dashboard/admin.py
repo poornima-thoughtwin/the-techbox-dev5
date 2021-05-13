@@ -41,6 +41,4 @@ class CategoryAdmin(admin.ModelAdmin):
 class AssetAssignAdmin(admin.ModelAdmin):
 	search_fields=['employee','asset','expire_date']
 	list_display =['employee','asset','expire_date']
-	# list_display_links = None
-	# list_editable = ['expire_date']
-	# list_per_page = 10
+	

@@ -307,3 +307,5 @@ class  CategoryDetail(APIView):
 
 #             }
 #             return response
+
+
