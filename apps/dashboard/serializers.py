@@ -1,11 +1,11 @@
 from rest_framework import serializers
 from .models import *
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 # from rest_framework_jwt.serializers import JSONWebTokenSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import exceptions
 from django.conf import settings 
-
 
 
 
@@ -30,11 +30,19 @@ class DesignationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Designation
         fields = '__all__'
-from django.contrib.auth.models import User
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
+
+# class CategoryDetailSerializer(serializers.ModelSerializer):
+#     asset = AssetSerializer()
+#     class Meta:
+#         model = Category
+#         fields = '__all__'
+
+
+
 

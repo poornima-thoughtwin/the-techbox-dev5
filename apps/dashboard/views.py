@@ -25,6 +25,13 @@ from django.http.response import JsonResponse # new
 from django.views.decorators.csrf import csrf_exempt # new
 from django.views.generic.base import TemplateView
 import stripe
+from rest_framework import filters
+from rest_framework import generics
+from .serializers import CategorySerializer,AssetSerializer
+from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 #......................................................................................................................
 
 class HomePageView(TemplateView):
@@ -327,4 +334,68 @@ def charge(request): # new
 
 
 
+#........................................................Api with filtering..............
 
+class DynamicSearchFilter(filters.SearchFilter):
+    def get_search_fields(self, view, request):
+        return request.GET.getlist('search_fields', [])
+
+
+class CategoryAPIView(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    search_fields = ['name','choice__name']
+    filter_backends = (DynamicSearchFilter,)
+    serializer_class = CategorySerializer
+
+
+# class CategoryAPIView(generics.ListCreateAPIView):
+#     queryset = Category.objects.all()
+#     search_fields = ['name','choice__name']
+#     filter_backends = (filters.SearchFilter,)
+#     serializer_class = CategorySerializer
+
+
+# class CategoryAPIView(generics.ListCreateAPIView):
+#     queryset = Category.objects.filter(name__icontains="electronics")
+#     search_fields = ['name']
+#     filter_backends = (filters.SearchFilter,)
+#     serializer_class = CategorySerializer
+
+
+# class CategoryAPIView(generics.ListCreateAPIView):
+#     queryset = Category.objects.filter(name__istartswith="Dslr Cameras")
+#     search_fields = ['name']
+#     filter_backends = (filters.SearchFilter,)
+#     serializer_class = CategorySerializer
+
+
+
+class CategoryAPIView(generics.ListCreateAPIView):
+    def get(self, request, format=None):
+        category_name = request.GET.get("Category",None)
+        search = request.GET.get("search",None)
+        page = request.GET.get('page', 1)
+
+        print(search)
+        print(category_name)
+        if category_name is not None:
+            category = Category.objects.get(name=category_name)
+            query = Asset.objects.filter(category=category.id , name__icontains=search)
+            serializer = AssetSerializer(query, many=True)
+            paginator = Paginator(query, 10)
+            try:
+                users = paginator.page(page)
+            except PageNotAnInteger:
+                users = paginator.page(1)
+            except EmptyPage:
+                users = paginator.page(paginator.num_pages)
+
+
+            return Response(serializer.data)
+        else:
+            query = Asset.objects.all()
+            serializer = AssetSerializer(query, many=True)
+            return Response(serializer.data)
+        
+
+#....................................................................................................

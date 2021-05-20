@@ -25,6 +25,8 @@ from django.views.decorators.cache import cache_page
 from rest_framework.views import APIView 
 #..............................................................................................
 urlpatterns = [
+    path('admin/', admin.site.urls),
+
 	path('search/',views.SearchResultsView.as_view(),name="search"),
 	path('index/', views.MyView.as_view(),name="index"),
 	path('employee/', views.EmployeeView.as_view(),name="employee"),
@@ -77,13 +79,14 @@ urlpatterns = [
     path('api/category/delete/<int:pk>',CategoryDetail.as_view(),name='api_category_delete'),
     path('api/category/update/<int:pk>',CategoryDetail.as_view(),name='api_category_update'),
     path('home/', views.HomePageView.as_view(), name='home'),
-    # path('config/', views.stripe_config),  # new
-    # path('create-checkout-session/', views.create_checkout_session), # new
-    # path('success/', views.SuccessView.as_view()), # new
-    # path('cancelled/', views.CancelledView.as_view()), # new
-    # path('charge/', views.ChargeView, name='charge'), # new
+    # path('config/', views.stripe_config),
+    # path('create-checkout-session/', views.create_checkout_session), 
+    # path('success/', views.SuccessView.as_view()),
+    # path('cancelled/', views.CancelledView.as_view()), 
+    # path('charge/', views.ChargeView, name='charge'),
     # path('test/', views.HomePageView.as_view(), name='test'),
-    path('charge/', views.charge, name='charge'), # new
+    path('charge/', views.charge, name='charge'),
+    path('api/category/', views.CategoryAPIView.as_view())
 
 
 ] 

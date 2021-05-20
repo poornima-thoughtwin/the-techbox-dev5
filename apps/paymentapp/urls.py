@@ -22,4 +22,6 @@ from . import views
 
 urlpatterns = [
     path('payment/', views.index,name="payment_index"),
+    # path('suceess/', views.suceess,name="suceess_index"),
+
 ]

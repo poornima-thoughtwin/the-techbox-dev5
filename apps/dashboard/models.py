@@ -20,6 +20,7 @@ class Category(models.Model):
 
 class Asset(models.Model):
     name = models.CharField(max_length=100,blank=True,null=True,default="")
+    #category = models.ManyToManyField(Category, related_name='category')
     category = models.ForeignKey('Category',on_delete=models.CASCADE)
     model_number = models.CharField(max_length=100,null=True,blank=True,default="")
     availability =models.BooleanField(default=True)
