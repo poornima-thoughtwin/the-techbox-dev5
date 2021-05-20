@@ -211,7 +211,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER ='poornima.thoughtwin@gmail.com'
-EMAIL_HOST_PASSWORD ='poornimawin123@'
+EMAIL_HOST_PASSWORD ='@'
 EMAIL_USE_TLS = True
 
 def MAIL(userMail,Name):
@@ -223,7 +223,7 @@ def MAIL(userMail,Name):
 
     sender_email = "poornima.thoughtwin@gmail.com"
     receiver_email = userMail
-    password = 'poornimawin123@'
+    password = '@'
 
     message = MIMEMultipart("alternative")
     message["Subject"] = "multipart test"
